@@ -1,23 +1,23 @@
-import type { Event } from "@/util/type";
-import { Events } from "discord.js";
+import type { Event } from "@/util/type"
+import { Events } from "discord.js"
 
 export const event: Event = {
   name: Events.MessageCreate,
   execute: async (_, c) => {
-    if (!c.message?.guild || c.message.author.bot) return;
+    if (!c.message?.guild || c.message.author.bot) return
 
     // Anti swearing system
-    let words = ["anjing", "bangsat"];
-    let foundInText = false;
+    let words = ["anjing", "bangsat"]
+    let foundInText = false
 
     for (let i in words) {
-      if (c.message.content.toLowerCase().includes(words[i].toLowerCase())) foundInText = true;
+      if (c.message.content.toLowerCase().includes(words[i].toLowerCase())) foundInText = true
     }
 
     if (foundInText) {
-      await c.message.delete();
+      await c.message.delete()
       if ("send" in c.message.channel) {
-        await c.message.channel.send({ content: "Please do not use bad words in this server." });
+        await c.message.channel.send({ content: "Please do not use bad words in this server." })
       }
     }
 
@@ -66,4 +66,4 @@ export const event: Event = {
     //   });
     // }
   },
-};
+}

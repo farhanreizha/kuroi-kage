@@ -1,23 +1,23 @@
-import type { Command } from "@/util/type";
+import type { Command } from "@/util/type"
 import {
-  SlashCommandBuilder,
-  PermissionFlagsBits,
-  CommandInteractionOptionResolver,
   ActivityType,
-  type PresenceStatusData,
+  CommandInteractionOptionResolver,
   EmbedBuilder,
-} from "discord.js";
+  PermissionFlagsBits,
+  SlashCommandBuilder,
+  type PresenceStatusData,
+} from "discord.js"
 
 export const command: Command = {
   data: new SlashCommandBuilder()
     .setName("update")
     .setDescription("Update the bot presences")
     .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
-    .addSubcommand((subcommand) =>
+    .addSubcommand(subcommand =>
       subcommand
         .setName("activity")
         .setDescription("Update the bot's activity.")
-        .addStringOption((option) =>
+        .addStringOption(option =>
           option
             .setName("type")
             .setDescription("Pick an activity type.")
@@ -30,13 +30,15 @@ export const command: Command = {
               { name: "Competing", value: "Competing" }
             )
         )
-        .addStringOption((option) => option.setName("activity").setDescription("Enter the activity description.").setRequired(true))
+        .addStringOption(option =>
+          option.setName("activity").setDescription("Enter the activity description.").setRequired(true)
+        )
     )
-    .addSubcommand((subcommand) =>
+    .addSubcommand(subcommand =>
       subcommand
         .setName("status")
         .setDescription("Update the bot's status.")
-        .addStringOption((option) =>
+        .addStringOption(option =>
           option
             .setName("type")
             .setDescription("Pick a status.")
@@ -50,38 +52,38 @@ export const command: Command = {
         )
     ),
   execute: async (interaction, client) => {
-    const options = interaction.options as CommandInteractionOptionResolver;
+    const options = interaction.options as CommandInteractionOptionResolver
 
     if (!client.user) {
-      interaction.reply({ content: "Bot user is unavailable.", ephemeral: true });
-      return;
+      interaction.reply({ content: "Bot user is unavailable.", ephemeral: true })
+      return
     }
 
-    const sub = options.getSubcommand();
-    const type = options.getString("type");
-    const activity = options.getString("activity");
+    const sub = options.getSubcommand()
+    const type = options.getString("type")
+    const activity = options.getString("activity")
 
     try {
       switch (sub) {
         case "activity":
           if (activity && type) {
-            const activityType = ActivityType[type as keyof typeof ActivityType];
-            client.user.setActivity(activity, { type: activityType });
+            const activityType = ActivityType[type as keyof typeof ActivityType]
+            client.user.setActivity(activity, { type: activityType })
           }
-          break;
+          break
         case "status":
           if (type) {
-            client.user.setPresence({ status: type as PresenceStatusData });
+            client.user.setPresence({ status: type as PresenceStatusData })
           }
-          break;
+          break
       }
 
-      const embed = new EmbedBuilder().setDescription(`Successfully updated your ${sub} to **${type}**.`);
+      const embed = new EmbedBuilder().setDescription(`Successfully updated your ${sub} to **${type}**.`)
 
-      await interaction.reply({ embeds: [embed] });
+      await interaction.reply({ embeds: [embed] })
     } catch (error) {
-      console.error("Error updating presence:", error);
-      await interaction.reply({ content: "There was an error updating the bot's presence.", ephemeral: true });
+      console.error("Error updating presence:", error)
+      await interaction.reply({ content: "There was an error updating the bot's presence.", ephemeral: true })
     }
   },
-};
+}

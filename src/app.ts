@@ -1,20 +1,20 @@
-import { Client, Collection, GatewayIntentBits, Partials } from "discord.js";
-import { createRequire } from "node:module";
-import type { CustomClient } from "./util/type";
-import Handlers from "./handler";
+import { Client, Collection, GatewayIntentBits, Partials } from "discord.js"
+import { createRequire } from "node:module"
+import Handlers from "./handler"
+import type { CustomClient } from "./util/type"
 
-const require = createRequire(import.meta.url);
+const require = createRequire(import.meta.url)
 
 const client = new Client({
   intents: Object.values(GatewayIntentBits) as GatewayIntentBits[],
   partials: Object.values(Partials) as Partials[],
-}) as CustomClient;
+}) as CustomClient
 
-client.commands = new Collection<string, any>();
-client.config = require("../config.json");
+client.commands = new Collection<string, any>()
+client.config = require("../config.json")
 
-const handler = new Handlers(client);
+const handler = new Handlers(client)
 
-await handler.init();
+await handler.init()
 
-client.login(Bun.env.token);
+client.login(Bun.env.token)
