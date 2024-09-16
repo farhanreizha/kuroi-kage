@@ -1,0 +1,122 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Welcome {
+  id        Int     @id @default(autoincrement())
+  guildId   String
+  channelId String
+  message   String
+  roleId    String?
+}
+
+model Logs {
+  id        Int    @id @default(autoincrement())
+  guildId   String
+  channelId String
+}
+
+model Afk {
+  id      Int    @id @default(autoincrement())
+  guildId String
+  userId  String
+}
+
+model Warning {
+  id      Int              @id @default(autoincrement())
+  guildId String
+  userId  String
+  userTag String
+  content WarningContent[]
+}
+
+model WarningContent {
+  id          Int      @id @default(autoincrement())
+  executerId  String
+  executerTag String
+  reason      String
+  evidence    String
+  date        DateTime
+
+  wartingId Int
+  warning   Warning @relation(fields: [wartingId], references: [id])
+}
+
+model ReactionRole {
+  id      Int    @id @default(autoincrement())
+  guildId String
+  role    Role[]
+}
+
+model Role {
+  id              Int    @id @default(autoincrement())
+  roleId          String
+  roleDescription String
+  roleEmoji       String
+
+  reactionRoleId Int
+  reactionRole   ReactionRole @relation(fields: [reactionRoleId], references: [id])
+}
+
+model TicketSetup {
+  id          Int      @id @default(autoincrement())
+  guildID     String
+  channelID   String
+  category    String
+  transcripts String
+  handlers    String
+  everyone    String
+  description String
+  buttons     Button[] @relation("TicketSetupButtons")
+}
+
+model Button {
+  id            Int         @id @default(autoincrement())
+  value         String
+  ticketSetup   TicketSetup @relation("TicketSetupButtons", fields: [ticketSetupId], references: [id])
+  ticketSetupId Int
+}
+
+model Ticket {
+  id        Int            @id @default(autoincrement())
+  guildId   String
+  ticketId  String
+  channelId String
+  closed    Boolean
+  locked    Boolean
+  type      String
+  claimed   Boolean
+  claimedBy String?
+  members   TicketMember[]
+}
+
+model TicketMember {
+  id       Int    @id @default(autoincrement())
+  memberId String
+  ticket   Ticket @relation(fields: [ticketId], references: [id])
+  ticketId Int
+}
+
+model Suggestion {
+  id        Int      @id @default(autoincrement())
+  guildId   String
+  messageId String
+  details   Detail[]
+}
+
+model Detail {
+  id           Int        @id @default(autoincrement())
+  memnerId     String
+  type         String
+  suggestion   String
+  suggestionId Int
+  detail       Suggestion @relation(fields: [suggestionId], references: [id])
+}

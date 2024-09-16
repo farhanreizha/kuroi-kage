@@ -1,0 +1,26 @@
+{
+  "name": "liebebotnew",
+  "module": "index.ts",
+  "type": "module",
+  "scripts": {
+    "dev": "bun run --watch src/app.ts",
+    "migrate": "bun prisma generate && bun prisma migrate dev"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "eslint": "^9.10.0"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "@prisma/client": "5.19.1",
+    "discord.js": "^14.16.2",
+    "log-discord": "^1.1.5",
+    "pino": "^9.4.0",
+    "pino-pretty": "^11.2.2",
+    "prisma": "^5.19.1",
+    "sqlite3": "^5.1.7",
+    "table": "^6.8.2"
+  }
+}
