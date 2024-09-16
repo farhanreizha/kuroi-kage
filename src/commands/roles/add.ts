@@ -1,3 +1,4 @@
+import logger from "@/util/logger"
 import type { Command } from "@/util/type"
 import {
   CommandInteractionOptionResolver,
@@ -32,7 +33,7 @@ export const command: Command = {
 
     try {
       if (role.position >= roles.highest.position)
-        interaction.reply({ content: "I don't have permissions for that.", ephemeral: true })
+        await interaction.reply({ content: "I don't have permissions for that.", ephemeral: true })
 
       // const data = await ReactionRole.findOne({ GuildID: guildId });
 
@@ -58,9 +59,10 @@ export const command: Command = {
       //   });
       // }
 
-      interaction.reply({ content: `Created new role **${role.name}**` })
+      await interaction.reply({ content: `Created new role **${role.name}**` })
     } catch (error) {
-      console.error(error)
+      logger.error(`An error occurred while creating a new role: ${error instanceof Error ? error.message : error}`)
+      await interaction.reply({ content: "An unexpected error occurred. Please try again later.", ephemeral: true })
     }
   },
 }

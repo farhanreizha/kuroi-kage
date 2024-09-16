@@ -1,3 +1,4 @@
+import logger from "@/util/logger"
 import type { Command } from "@/util/type"
 import {
   ChannelType,
@@ -35,7 +36,8 @@ export const command: Command = {
       await m.react("❌")
       await interaction.reply({ content: "Poll was successfully sent to the channel.", ephemeral: true })
     } catch (error) {
-      console.error(error)
+      logger.error(`An error occurred: ${error instanceof Error ? error.message : error}`)
+      await interaction.reply({ content: "An unexpected error occurred. Please try again later.", ephemeral: true })
     }
   },
 }

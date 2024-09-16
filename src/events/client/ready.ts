@@ -9,7 +9,7 @@ export const event: Event = {
     try {
       logger.info(`${client.user?.tag} is online!`)
     } catch (error) {
-      logger.error(`Failed to log bot status: ${error}`)
+      logger.error(`Failed to log bot status: ${error instanceof Error ? error.message : error}`)
     }
   },
 }

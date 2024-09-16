@@ -18,6 +18,6 @@ export default async function uploadCommands(commands: any): Promise<void> {
     await rest.put(endpoint, { body: commands })
     logger.info(response)
   } catch (error) {
-    logger.error(`Failed to register commands: ${error}`)
+    logger.error(`Failed to register commands: ${error instanceof Error ? error.message : error}`)
   }
 }

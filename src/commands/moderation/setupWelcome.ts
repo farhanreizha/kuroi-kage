@@ -37,7 +37,7 @@ export const command: Command = {
     const role = options.getRole("welcome-role") as Role | null
 
     if (!interaction.guild.members.me.permissions.has(PermissionFlagsBits.SendMessages)) {
-      interaction.reply({ content: "I don't have permissions for this.", ephemeral: true })
+      await interaction.reply({ content: "I don't have permissions for this.", ephemeral: true })
     }
 
     const data = await db.welcome.findFirst({ where: { guildId: interaction.guild.id } })
@@ -51,9 +51,9 @@ export const command: Command = {
           roleId: role?.id,
         },
       })
-      interaction.reply({ content: "Welcome message setup successfully.", ephemeral: true })
+      await interaction.reply({ content: "Welcome message setup successfully.", ephemeral: true })
     } else {
-      interaction.reply({ content: "Welcome message has been setup.", ephemeral: true })
+      await interaction.reply({ content: "Welcome message has been setup.", ephemeral: true })
     }
   },
 }

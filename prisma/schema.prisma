@@ -25,9 +25,20 @@ model Logs {
 }
 
 model Afk {
-  id      Int    @id @default(autoincrement())
+  id      Int     @id @default(autoincrement())
   guildId String
   userId  String
+  afk     Boolean
+}
+
+model Level {
+  id        Int      @id @default(autoincrement())
+  userId    String
+  guildId   String
+  level     Int      @default(0)
+  xp        Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Warning {

@@ -1,3 +1,4 @@
+import logger from "@/util/logger"
 import type { Command } from "@/util/type"
 import {
   ActivityType,
@@ -55,7 +56,7 @@ export const command: Command = {
     const options = interaction.options as CommandInteractionOptionResolver
 
     if (!client.user) {
-      interaction.reply({ content: "Bot user is unavailable.", ephemeral: true })
+      await interaction.reply({ content: "Bot user is unavailable.", ephemeral: true })
       return
     }
 
@@ -82,7 +83,7 @@ export const command: Command = {
 
       await interaction.reply({ embeds: [embed] })
     } catch (error) {
-      console.error("Error updating presence:", error)
+      logger.error(`Error updating presence: ${error instanceof Error ? error.message : error}`)
       await interaction.reply({ content: "There was an error updating the bot's presence.", ephemeral: true })
     }
   },
