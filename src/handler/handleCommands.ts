@@ -24,6 +24,7 @@ export default async function handleCommands(client: CustomClient): Promise<void
     const command = require(filePath).command
     return {
       ...command,
+      folder: path.basename(path.dirname(filePath)),
     }
   })
 
